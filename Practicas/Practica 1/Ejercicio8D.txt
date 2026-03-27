@@ -1,0 +1,48 @@
+ORG 1000H
+CADENA DB "BUEnos",00H
+
+ORG 3000H
+ES_VOCAL:
+  CMP BYTE PTR [BX], 'a'  
+  JZ ES
+  CMP BYTE PTR [BX], 'e'  
+  JZ ES
+  CMP BYTE PTR [BX], 'i'  
+  JZ ES
+  CMP BYTE PTR [BX], 'o'  
+  JZ ES
+  CMP BYTE PTR [BX], 'u'  
+  JZ ES
+  CMP BYTE PTR [BX], 'A'  
+  JZ ES
+  CMP BYTE PTR [BX], 'E'  
+  JZ ES
+  CMP BYTE PTR [BX], 'I'  
+  JZ ES
+  CMP BYTE PTR [BX], 'O'  
+  JZ ES
+  CMP BYTE PTR [BX], 'U'  
+  JZ ES
+  JMP NO_ES
+  ES: 
+    MOV DL, 0FFh
+    JMP FIN
+  NO_ES: 
+    MOV DL, 000h
+  FIN:
+RET
+
+CONTAR_VOC:
+  PUSH BX
+  
+  CALL ES_VOCAL
+  POP BX
+RET
+
+
+ORG 2000H
+MOV BX, OFFSET CADENA
+CALL CONTAR_VOC
+HLT
+END
+
