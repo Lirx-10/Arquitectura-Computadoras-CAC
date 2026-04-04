@@ -1,0 +1,70 @@
+5)-Pasaje de parámetros a través de registros y la pila
+
+A) Completa las instrucciones del siguiente programa, que envía a una subrutina 
+3 valores A, B y C a través de registros AL, AH y CL, calcula AL+AH-CL, 
+y devuelve el resultado en DL.
+
+ORG 1000H
+A DB 8
+B DB 5
+C DB 4
+D DB ?
+
+ORG 3000H
+CALC:
+MOV DL, AL
+ADD DL, AH
+SUB DL, CL
+RET
+
+ORG 2000H
+MOV AL, A
+MOV AH, B
+MOV CL, C
+CALL CALC
+MOV D, DL
+HLT
+END.
+
+B) Ahora lo mismo, pero los valores A, B y C se reciben mediante pasaje de parámetros por valor a través de la pila.
+El resultado se devuelve de igual forma por el registro dl y por valor.
+
+ORG 1000H
+A DW 8
+B DW 5
+C DW 4
+D DW ?
+
+ORG 3000H
+CALC:
+MOV BX, SP
+ADD BX, 6
+MOV DL, BYTE PTR [BX]
+SUB BX, 2
+MOV AH, BYTE PTR [BX]
+SUB BX, 2
+MOV CL, BYTE PTR [BX]
+ADD DL, AH
+SUB DL, CL
+RET
+
+ORG 2000H
+MOV AX, A
+PUSH AX
+MOV AX, B
+PUSH AX
+MOV AX, C
+PUSH AX
+CALL CALC
+MOD D, DL
+POP AX
+POP AX 
+POP AX
+HLT 
+END.
+
+
+
+
+
+

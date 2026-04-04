@@ -1,0 +1,44 @@
+C) Modificar el programa anterior para enviar los parámetros A, B y C a través de la pila pero ahora por referencia.
+
+ORG 1000H
+A DW 8
+B DW 5
+C DW 4
+D DB ?
+
+ORG 3000H
+CALC:
+MOV BX, SP
+ADD BX, 6
+MOV CX, BX
+MOV BX, [BX]
+MOV DL, BYTE PTR [BX]
+MOV BX, CX
+SUB BX, 2
+MOV CX, BX
+MOV BX, [BX]
+MOV AH, BYTE PTR[BX]
+MOV BX, CX
+SUB BX, 2
+MOV CX, BX
+MOV BX, [BX]
+MOV CL, BYTE PTR[BX]
+ADD DL, AH
+SUB DL, CL
+RET
+
+ORG 2000H
+MOV AX, OFFSET A
+PUSH AX
+MOV AX, OFFSET B
+PUSH AX
+MOV AX, OFFSET C
+PUSH AX
+CALL CALC
+MOV D, DL
+POP AX
+POP AX
+POP AX
+HLT 
+END
+

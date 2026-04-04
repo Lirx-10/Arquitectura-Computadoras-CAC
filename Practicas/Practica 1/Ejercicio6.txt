@@ -1,0 +1,22 @@
+6) Multiplicación de números sin signo.
+El simulador no posee una instrucción para multiplicar números. 
+Escribir un programa para multiplicar los números
+NUM1 y NUM2 de 1 byte, y guardar el resultado en la variable RES,
+también de 1 byte.
+A. Sin usar subrutinas, implementando todo en el programa principal.
+
+B. Llamando a una subrutina MUL para efectuar la operación, pasando los 
+parámetros por valor desde el programa principal a través de 
+registros y devolviendo el resultado a través de un registro por valor.
+
+C. Llamando a una subrutina MUL, pasando los parámetros por referencia desde 
+el programa principal a través de registros, y devolviendo el resultado
+a través de un registro por valor.
+
+D. Llamando a una subrutina MUL, pasando los parámetros por valor desde el
+programa principal a través de la pila, y devolviendo el resultado a 
+través de un registro por valor.
+
+E. Llamando a una subrutina MUL, pasando los parámetros por referencia desde 
+el programa principal a través de la pila, y devolviendo el resultado a través 
+de un registro por valor.
