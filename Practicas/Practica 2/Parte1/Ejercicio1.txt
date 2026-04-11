@@ -1,0 +1,62 @@
+Para saber: PA maneja llaves, PB maneja luces
+
+
+; Este programa lo que hace es configurar CB
+; como lo configura? le pasa AL = 00000000, lo que quiere decir
+; que todos los bits que tengan seran de 
+; y luego AL = 00001111, por lo que al hacer
+; OUT PB, AL muestra las últimas 4 luces prendidas
+; EJEMPLO, si AL = 00001111 y hago OUT CB, AL. configuraría para que sean
+; 4 de salida y 4 de entrada al final, por lo que este programa no encendería
+; ninguna lucesita 
+PB EQU 31H
+CB EQU 33H
+ORG 2000H
+MOV AL, 0
+OUT CB, AL
+MOV AL, 0FH
+OUT PB,AL
+INT 0
+END
+
+
+; Este programa imprime en pantalla el texto
+; "Apagadas" como lo hace? simplemente le manda a BX la dirección
+; pone int 7 que eso es una interrupcion por hardware e imprime.
+; PERO, eso es la ultima parte del código despues del JNZ fin
+; La primera parte lo que haces es configurar CA para chequear el estado
+; de las llaves, si estan o no apagadas, y para eso mete en AL lo que hay 
+; PA, que indica el valor de las llaves que estan prendidas o apagadas
+PA EQU 30H
+CA EQU 32h
+ORG 1000h
+msj DB "Apagadas"
+ORG 2000H
+MOV AL, 0FFh
+OUT CA, AL
+IN AL, PA
+CMP AL, 0
+JNZ FIN
+MOV AL, 8
+MOV BX , offset msj
+INT 7
+FIN: INT 0
+end
+
+
+; Configuro CA para entrada y CB para salida
+; luego de eso puedo sacar el valor de PA (Estado de las llaves)
+; y lo paso a PB (Estado de las luces) para prenderlas
+PA EQU 30H
+PB EQU 31h
+CA EQU 32h
+CB EQU 33H
+ORG 2000h
+MOV AL, 0FFH
+OUT CA, AL
+MOV AL, 0
+OUT CB, AL
+IN AL, PA
+OUT PB, AL
+int 0
+end

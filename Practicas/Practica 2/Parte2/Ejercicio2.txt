@@ -1,0 +1,31 @@
+;2) Verificación del bit busy ⭐
+;El siguiente programa tiene como objetivo verificar el bit de busy a través del PIO e imprimir “Ocupada” si 
+;la impresora está ocupada y “Libre” de lo contrario.
+;a) Complete el código para que el programa funcione correctamente.
+;b) Modifique el código para que el programa no imprima “Ocupada”. En lugar de eso, el programa debe
+;esperar a que el bit de busy sea 0 usando consulta de estado. Cuando eso suceda, imprimir “Libre” y
+;terminar el programa
+
+;a)-
+PA EQU 30h
+CA EQU 32h
+ORG 1000h
+si db "Ocupada"
+no db "Libre"
+ORG 2000H
+MOV AL, 0FFH ;;
+OUT CA, AL
+IN AL, PA
+AND AL, 1  ;;
+JNZ ocupada
+MOV BX, OFFSET no ;;
+MOV AL, 5
+INT 7
+JMP fin
+ocupada: 
+MOV BX, OFFSET si
+MOV AL, 7  ;; 
+INT 7
+fin: 
+INT 0
+end

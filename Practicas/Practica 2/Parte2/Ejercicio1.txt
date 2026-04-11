@@ -1,0 +1,32 @@
+1) Protocolo de comunicación Centronics para la impresora ⭐
+El protocolo Centronics sirve para indicarle a la impresora cuando se está enviando un carácter a imprimir.
+El protocolo utiliza 3 señales: busy, strobe y data. Para enviar un carácter a la impresora, se debe esperar
+que la misma esté libre (busy = 0), luego poner el carácter en la señal de data, y finalmente indicar que hay
+un carácter para imprimir mediante la generación de un flanco ascendente en la señal de strobe. Un flanco
+ascendente sucede cuando la señal cambia de 0 a 1.
+La impresora sólo imprime cuando está disponible (busy es 0) y recibe una señal de flanco ascendente en la
+línea de strobe. Si no se cumple alguna de estas condiciones, la impresora ignora la línea de data.
+El siguiente gráfico muestra un ejemplo de las señales.
+a) Indica cuáles de las 3 señales son de entrada o de salida.
+b) Si bien la señal de data envía el string “holaa”, las señales de strobe y busy que se envían no permiten
+que se impriman todos los caracteres. Indicar qué imprime la impresora. ¿Cuál es la razón por la cuál
+algunos carácteres no se imprimen?
+c) El diseño de la impresora tiene 2 señales de sincronización. No obstante, se podría pensar que sólo con
+la señal busy alcanza. ¿Qué sucedería al querer imprimir “aa” si no existiera la señal de strobe?
+
+a- Data y Strobe son señales de entrada que recibe la impresora desde la computadora, y Busy es una señal de 
+salida que devuelve la impresora para indicar si va a imprimir o no. 
+ESTO APLICA PARA LA IMPRESORA, A NOSOTROS NOS IMPORTA LA COMPUTADORA, EN ESE CASO:
+  Data y Strobe son señales de salida, que la computadora MUESTRA, manda, sale de la computadora. En cambio
+Busy es una señal de entrada, dado que ingresa el estado de la impresora a la computadora, para saber si 
+puede imprimir o no.
+
+b- Los carecteres que se imprimen en este caso serían "o a a", de "h" no vemos el flanco ascendente de strobe
+además de tampoco ver el estado de Busy, si es 1 o 0, que indica si puede imprimirse o no cuando strobe está 
+en flanco ascendente, y "l" no se imprime por que busy=1.
+
+c- En caso de tener solo la señal de busy y no la de strobe, la impresora no podría darse cuenta cuantos caracteres
+querria imprimir en caso de tener 2 iguales, por ejemplo en "holaa", solo imprimiría "hola" dado que al final
+no detectaría que tiene 2 caracteres, si no que siempre viene el mismo, entonces tira 1. 
+(medio como el ojt lo expliqué)
+
