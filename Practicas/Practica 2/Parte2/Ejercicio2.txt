@@ -29,3 +29,22 @@ INT 7
 fin: 
 INT 0
 end
+
+;b)-
+PA EQU 30h
+CA EQU 32h
+ORG 1000h
+no db "Libre"
+ORG 2000H
+MOV AL, 0FFH ;;
+OUT CA, AL
+;; OUT PA, AL poner esto aca no va a modificar PA
+esperar:
+IN AL, PA
+AND AL, 01h  ;;
+JNZ esperar
+MOV BX, OFFSET no ;;
+MOV AL, 5
+INT 7
+INT 0
+end
