@@ -30,3 +30,4 @@ querria imprimir en caso de tener 2 iguales, por ejemplo en "holaa", solo imprim
 no detectaría que tiene 2 caracteres, si no que siempre viene el mismo, entonces tira 1. 
 (medio como el ojt lo expliqué)
 
+; 0 SALIDA 1 ENTRADA

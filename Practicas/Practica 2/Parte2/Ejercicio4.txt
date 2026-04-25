@@ -1,0 +1,158 @@
+;4) Uso de la impresora a través de la PIO ⭐⭐
+;Ejecutar los programas configurando el simulador VonSim con los 
+;dispositivos “Impresora (PIO)”. En esta
+;configuración, el puerto de datos de la impresora se conecta al 
+;puerto PB del PIO, y los bits de busy y strobe
+;de la misma se conectan a los bits 0 y 1 respectivamente del puerto PA.
+
+;a) Escribir un programa para imprimir la letra “A”
+;utilizando la impresora a través de la PIO. 
+;Recordar que el programa deberá esperar hasta que el bit de busy
+;esté apagado, luego enviar el carácter, y luego enviar el flanco 
+;ascendente a través de la señal de strobe. 
+;Modularizar el programa en 4 subrutinas:
+;📄 ini_pio: Inicializa el PIO configurando los registros CA y CB según 
+;corresponde a strobe, busy y puerto de datos
+;📄 poll: Consulta el bit busy de la impresora, e itera hasta que esté 
+;en 0. Cuando está en 0 la subrutina retorna sin devolver ninǵun valor
+;📄 flanco_ascendente: Igual que la subrutina implementada en el ejercicio
+;anterior
+;📄 imprimir_caracter: Recibe un carácter a imprimir en AL, y utilizando 
+;poll y flanco_ascendente, realiza todos los pasos necesarios para enviar
+;a la impresora el carácter
+; 0 SALIDA 1 ENTRADA
+PA EQU 30H
+PB EQU 31H
+CA EQU 32H
+CB EQU 33H
+ORG 1000H
+caracter db "A"
+ORG 2000H
+CALL ini_pio
+CALL imprimir_caracter
+hlt
+
+ORG 3000H
+ini_pio:
+  PUSH AX
+  MOV AL, 0FDH 
+  OUT CA, AL
+  MOV AL, 0
+  OUT CB, AL
+  POP AX
+ret
+
+poll:
+  PUSH AX
+  IN AL, PA
+  AND AL, 1
+  JNZ poll
+  POP AX
+ret
+
+flanco_ascendente:
+  PUSH AX
+  IN AL, PA
+  AND AL, 0FDH
+  OUT PA, AL
+  OR AL, 02H
+  OUT PA, AL
+  POP AX
+ret
+
+imprimir_caracter:
+  PUSH AX
+  CALL poll
+  MOV AL, caracter
+  OUT PB, AL
+  CALL flanco_ascendente
+  POP AX
+ret
+
+HLT
+END
+
+
+
+
+
+
+;4) Uso de la impresora a través de la PIO ⭐⭐
+;Ejecutar los programas configurando el simulador VonSim con los 
+;dispositivos “Impresora (PIO)”. En esta
+;configuración, el puerto de datos de la impresora se conecta al 
+;puerto PB del PIO, y los bits de busy y strobe
+;de la misma se conectan a los bits 0 y 1 respectivamente del puerto PA.
+
+;a) Escribir un programa para imprimir la letra “A”
+;utilizando la impresora a través de la PIO. 
+;Recordar que el programa deberá esperar hasta que el bit de busy
+;esté apagado, luego enviar el carácter, y luego enviar el flanco 
+;ascendente a través de la señal de strobe. 
+;Modularizar el programa en 4 subrutinas:
+;📄 ini_pio: Inicializa el PIO configurando los registros CA y CB según 
+;corresponde a strobe, busy y puerto de datos
+;📄 poll: Consulta el bit busy de la impresora, e itera hasta que esté 
+;en 0. Cuando está en 0 la subrutina retorna sin devolver ninǵun valor
+;📄 flanco_ascendente: Igual que la subrutina implementada en el ejercicio
+;anterior
+;📄 imprimir_caracter: Recibe un carácter a imprimir en AL, y utilizando 
+;poll y flanco_ascendente, realiza todos los pasos necesarios para enviar
+;a la impresora el carácter
+; 0 SALIDA 1 ENTRADA
+PA EQU 30H
+PB EQU 31H
+CA EQU 32H
+CB EQU 33H
+ORG 1000H
+caracter db "A"
+ORG 2000H
+CALL ini_pio
+CALL imprimir_caracter
+hlt
+
+ORG 3000H
+ini_pio:
+  PUSH AX
+  MOV AL, 0FDH 
+  OUT CA, AL
+  MOV AL, 0
+  OUT CB, AL
+  POP AX
+ret
+
+poll:
+  PUSH AX
+  IN AL, PA
+  AND AL, 1
+  JNZ poll
+  POP AX
+ret
+
+flanco_ascendente:
+  PUSH AX
+  IN AL, PA
+  AND AL, 0FDH
+  OUT PA, AL
+  OR AL, 02H
+  OUT PA, AL
+  POP AX
+ret
+
+imprimir_caracter:
+  PUSH AX
+  CALL poll
+  MOV AL, caracter
+  OUT PB, AL
+  CALL flanco_ascendente
+  POP AX
+ret
+
+HLT
+END
+
+
+
+
+
+

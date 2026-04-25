@@ -6,6 +6,8 @@
 ;esperar a que el bit de busy sea 0 usando consulta de estado. Cuando eso suceda, imprimir “Libre” y
 ;terminar el programa
 
+; 0 SALIDA 1 ENTRADA
+
 ;a)-
 PA EQU 30h
 CA EQU 32h

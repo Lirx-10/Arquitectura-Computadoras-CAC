@@ -1,0 +1,29 @@
+Registros del PIC ⭐ Dados los siguientes registros del PIC indique su función. Además, para el valor
+de ejemplo, indique qué significa en términos del funcionamiento del programa
+
+    Dirección   Registro    Función       Valor de Ejemplo
+1)    20h         EOI                     No aplica
+2)    21h         IMR                     1111 1101
+3)    22h         IRR                     0000 0011
+4)    23h         ISR                     0000 0100
+5)    24h         INT0                    15
+6)    25h         INT1                    10
+7)    26h         INT2                    25
+
+1- EOI(End of interrupt): Se usa para avisarle al PIC que ya terminaste de antender una interrupcion. 
+
+2- IMR(Interrupt mask Register): Define que interrupciones está habilitadas o bloqueadas. 1 = bloqueada 0 = habilitada. 
+Valor 1111 1101 significa que solo la IRQ1 está habilitada el resto está bloqueada.
+
+3- IRR(Interrupt Request Register): Indica que interrupciones fueron solicitadas primero.
+Valor 0000 0011 IRQ1 e IRQ0 están pidiendo atención. Dos interrupciones esperandoser atendidas
+
+4- ISR(In Service Register): Indica que interrupción está siendo atendida. 
+Valor 0000 0100: IRQ2
+
+5- INT0: Guardala Dirección (o vector) de la rutina de interrupcion 0. Cuando ocurrre IRQ0, se ejecuta la rutina en
+la direccion 15.
+
+6- INT1: Vector de la interrupcion 1. IRQ1 salta a la dirección 10.
+
+7- INT2: Vector de la interrupcion 2. IRQ2 salta a la dirección 25

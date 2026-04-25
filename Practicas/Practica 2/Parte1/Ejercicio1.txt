@@ -3,7 +3,7 @@ Para saber: PA maneja llaves, PB maneja luces
 
 ; Este programa lo que hace es configurar CB
 ; como lo configura? le pasa AL = 00000000, lo que quiere decir
-; que todos los bits que tengan seran de 
+; que todos los bits que tengan seran de salida
 ; y luego AL = 00001111, por lo que al hacer
 ; OUT PB, AL muestra las últimas 4 luces prendidas
 ; EJEMPLO, si AL = 00001111 y hago OUT CB, AL. configuraría para que sean
