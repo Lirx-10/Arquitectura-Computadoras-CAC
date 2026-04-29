@@ -1,0 +1,39 @@
+;3) Llaves y mensajes ⭐⭐
+;b) Escribir un programa que continuamente verifique el estado de las 
+;llaves. Si están prendidas la primera y la última llave, y el resto 
+;están apagadas (patrón 10000001), se debe mostrar en pantalla el
+;mensaje "ACTIVADO". En caso contrario, no se debe mostrar nada.
+;c) Modificar a) para que el mensaje se imprima una sola vez cada vez que 
+;detecte ese patrón de bits. Por ejemplo, si el programa lee la siguiente 
+;secuencia de patrones:
+;00010101 → 10010000 → 10000001 → 10000001 → 10000001 → 10010001 
+;→ 10000001 → 10000001 → 10010101 → 01110001
+;Entonces solo deberá imprimir “ACTIVADO” dos veces.
+PA EQU 30H
+CA EQU 31H
+
+ORG 1000H
+PATRON DB 10000001b
+ACT DB "ACTIVADO"
+
+ORG 2000H
+CALL verificar_luces
+HLT 
+
+ORG 3000H
+verificar_luces:
+  PUSH AX
+  MOV AL, 0FFH
+  OUT CA, AL
+  IN AL, PA
+  CMP AL, PATRON
+  jz IMPRIMIR
+  jmp verificar_luces
+  imprimir:
+  MOV BX, OFFSET ACT
+  MOV AL, 0
+  INT 7
+  POP AX
+ret
+
+END

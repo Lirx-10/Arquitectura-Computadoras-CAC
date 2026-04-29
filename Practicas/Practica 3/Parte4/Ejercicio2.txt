@@ -1,0 +1,48 @@
+;2) CriptoLlaves (Llaves, Luces):⭐⭐⭐
+;Escriba un programa de VonSim que permita jugar al CriptoLlaves.
+;El usuario debe adivinar un patrón secreto
+;de 8 bits que está almacenado en la memoria del programa. Para ello,
+;debe manipular las llaves hasta que el
+;patrón de bits de las llaves sea exactamente igual al del patrón secreto. 
+;Como ayuda para el usuario, si el estado
+;de una llave acierta al bit correspondiente, el programa debe prender 
+;el led correspondiente. Por ejemplo, si el
+;patrón es 0100 0101 y las llaves están en el estado 1110 0100, deben
+;prenderse las luces de los bits 1, 2, 3, 4 y 6.
+;Como no acertó a todos los bits, el usuario no ha adivinado el patrón y
+;debe continuar jugando.El programa termina cuando el usuario acierta 
+;todos los bits del patrón, mostrando en pantalla el mensaje "GANASTE"
+PA EQU 30H
+PB EQU 31H
+CA EQU 32H
+CB EQU 33H
+
+ORG 1000H
+PATRON DB 11011111B
+GANA DB "GANASTE"
+ORG 2000H
+;; Configuro las luces como salida
+MOV AL, 0
+OUT CB, AL
+;; Configuro las llaves como entrada
+MOV AL, 0FFH
+OUT CA, AL
+loop:
+  ;; Agarro el estado de las llaves
+  IN AL, PA
+  ;; Me guardo el estado de las llaves
+  MOV AH, AL
+  ;; Hago un xor que almacene los aciertos entre el patron y las llaves, y lo muestre
+  XOR AL, PATRON
+  NOT AL
+  OUT PB, AL
+  ;; Comparo el estado de las llaves con el patrón
+  CMP AH, PATRON
+  ;; Si no coinciden repito
+  JNZ loop
+;; Si coinciden termino el programa
+MOV BX, OFFSET GANA
+MOV AL, 7
+INT 7
+HLT
+END

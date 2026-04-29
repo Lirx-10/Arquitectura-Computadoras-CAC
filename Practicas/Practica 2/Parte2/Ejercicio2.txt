@@ -8,6 +8,7 @@
 
 ; 0 SALIDA 1 ENTRADA
 
+
 ;a)-
 PA EQU 30h
 CA EQU 32h

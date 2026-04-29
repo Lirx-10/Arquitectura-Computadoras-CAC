@@ -20,6 +20,7 @@ INT 0
 END
 
 
+
 ; Este programa imprime en pantalla el texto
 ; "Apagadas" como lo hace? simplemente le manda a BX la dirección
 ; pone int 7 que eso es una interrupcion por hardware e imprime.
