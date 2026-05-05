@@ -10,21 +10,21 @@
 ;→ 10000001 → 10000001 → 10010101 → 01110001
 ;Entonces solo deberá imprimir “ACTIVADO” dos veces.
 PA EQU 30H
-CA EQU 31H
+CA EQU 32H
 
 ORG 1000H
 PATRON DB 10000001b
 ACT DB "ACTIVADO"
 
 ORG 2000H
+MOV AL, 0FFH
+OUT CA, AL
 CALL verificar_luces
 HLT 
 
 ORG 3000H
 verificar_luces:
   PUSH AX
-  MOV AL, 0FFH
-  OUT CA, AL
   IN AL, PA
   CMP AL, PATRON
   jz IMPRIMIR
