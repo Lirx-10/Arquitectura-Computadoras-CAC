@@ -1,0 +1,38 @@
+.data
+A: .word 1
+B: .word 2
+.code
+ld r1, A(r0)
+ld r2, B(r0)
+sd r2, A(r0)
+sd r1, B(r0)
+halt
+
+
+¿Qué pinga es el forwarding? 
+- Es una forma de solucionar los problemas por dependencia de datos, lo activas y listo
+
+a) Desactivando el Forwarding
+--¿Que instrucción está generando atascos? 
+- Las instrucciones que generan atascos son
+sd r2, A(r0), sd r1, B(r0), dado que están queriendo acceder a datos que aún no se escribieron
+
+--¿Qué tipo de stall aparece?
+- Aparecen 2 RAW (Read After Write).
+
+--¿Cual es el promedio de ciclo de instruccion (CPI)?
+- 11 ciclos, 5 instrucciones. CPI = 2.200 ciclos por instrucción
+
+b) Activando el Forwarding
+-- ¿Por qué no se presenta ningun atasco en este caso? Explicar la mejora
+- Porque el procesador no espera que los datos lleguen al banco de registros, toma el resultado 
+directamente de una etapa del pipeline y lo adelanta a la instrucción, por ejemplo desde la etapa 
+MEM o WB.
+
+--¿Qué indica el color de los registros en la ventana Register durante la ejecución?
+- El color en los registros de la ventana register durante la ejecución indican que fueron escritos 
+o involucrados en el forwarding.
+  Y se pone en verde porque ya te deja disponible el valor que necesitas usar en el registro.
+
+--¿Cual es el promedio de ciclos por instrucción (CPI)? Comparar con el anterior.
+- 9 ciclos, 5 instrucciones. CPI = 1800 ciclos por instrucción. 400 ciclos menor

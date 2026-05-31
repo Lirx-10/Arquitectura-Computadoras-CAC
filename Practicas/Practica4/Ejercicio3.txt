@@ -1,0 +1,25 @@
+.data
+A: .word 1
+B: .word 6
+
+.code
+ld r1, A(r0)
+ld r2, B(r0)
+loop:
+    dsll r1,r1, 1
+    daddi r2,r2, -1
+    bnez r2, loop
+halt
+
+a) Forwarding Activado 
+--¿Por qué se generan atascos?
+- 
+
+-- Branch Taken es otro tipo de atasco que aparece. ¿Qué significa?¿Por qué se produce?
+- Branch Taken significa que el salto condicional fue tomado. Esto produce otro tipo de atasco
+donde el procesador ya comenzo a traer instrucciones siguientes suponiendo ejecución secuencial, 
+pero como el salto se ejecuta, estas mismas se descartan (en este ejemplo solo el halt), por lo
+que el pipeline pierde ciclos.
+
+-- 
+-
