@@ -1,0 +1,29 @@
+Escribir un programa que recorra una TABLA de diez números enteros y determine cuántos elementos
+son mayores que X. El resultado debe almacenarse en una dirección etiquetada CANT. El programa
+debe generar además otro arreglo llamado RES cuyos elementos sean ceros y unos. UN "1" indicará
+que el entero correspondiente en el arreglo TABLA es mayor que X, mientras que un "0" indicará 
+que es menor o igual.
+
+.data
+TABLA: .word 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+X: .word 7
+CANT .word 0
+RES: .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 
+
+.code
+ld r1, TABLA(r0)
+ld r2, X(r0)
+ld r3, CANT(r0)
+ld r4, RES(r0)
+dadd r5, r0, r0
+
+loop:
+    slt r4, r2, r1
+    sd r4, RES(r5)
+    daddi r5, r5, 8
+    beq r5, 
+    ld r1, TABLA(r5)
+    ld r3, RES(r5)
+    j loop
+
+halt
