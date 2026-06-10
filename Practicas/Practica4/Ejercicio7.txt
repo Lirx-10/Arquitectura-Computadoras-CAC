@@ -7,23 +7,27 @@ que es menor o igual.
 .data
 TABLA: .word 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 X: .word 7
-CANT .word 0
+CANT: .word 0
 RES: .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 
 
 .code
 ld r1, TABLA(r0)
 ld r2, X(r0)
-ld r3, CANT(r0)
 ld r4, RES(r0)
 dadd r5, r0, r0
+dadd r7, r0, r0
+daddi r6, r0, 10
 
 loop:
     slt r4, r2, r1
     sd r4, RES(r5)
+    daddi r7, r7, r4
     daddi r5, r5, 8
-    beq r5, 
+    daddi r6, r6, -1
+    beqz r6, fin
     ld r1, TABLA(r5)
     ld r3, RES(r5)
     j loop
-
+fin:
+    sd r7, CANT(r0)
 halt
