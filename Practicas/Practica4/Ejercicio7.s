@@ -10,18 +10,17 @@ ld r2, X(r0)
 ld r3, CANT(r0)
 ld r4, RES(r0)
 dadd r5, r0, r0
-daddi r6, r0, 10
+daddi r6, r0, 0x50
 
 loop:
     slt r4, r2, r1
     sd r4, RES(r5)
-    daddi r7, r7, 1
     daddi r5, r5, 8
-    daddi r6, r6, -1
-    beqz r6, fin
+    beq r4, r0, seguir 
+    daddi r3, r3, 1
+    seguir: 
     ld r1, TABLA(r5)
-    ld r3, RES(r5)
-    j loop
-fin:
-
+    ld r4, RES(r5)
+    bne r5, r6, loop
+    sd r3, CANT(r0)    
 halt
