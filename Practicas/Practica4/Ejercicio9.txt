@@ -1,0 +1,34 @@
+Escribir un programa que implemente el siguiente fragmento escrito en un lenguaje de alto nivel:
+while a > 0 do
+begin
+x := x + y;
+a := a - 1;
+end;
+Ejecutar con la opción Delay Slot habilitada.
+
+
+.data
+X: .word 1
+Y: .word 5
+a: .word 3
+RESUL: .word 0
+
+.code
+; Cargo los datos en registros de lo que voy a utilizar
+ld r1, X(r0)
+ld r2, Y(r0)
+ld r3, a(r0)
+
+;Como tengo que implementar un while, tengo que entrar si se cumple la condición, si no no hago nada
+beqz r3, fin
+;Utilizo un nop, ya que aca no es necesario usar el delay slot, y si no entro al bucle, no debería 
+;de modificar nada, ni siquiera r3, que no almaceno ningun resultado en base a el.
+nop
+daddi r3, r3, -1 ;Como si entro al bucle, decremento
+loop:
+    dadd r1, r1, r2 ;Hago la suma
+    bnez r3, loop
+    daddi r3, r3, -1 ;Aprovecho el delay slot para decrementar para la siguiente comparación
+fin:
+sd r1, RESUL(r0)
+halt
