@@ -1,0 +1,32 @@
+----------------------------------------------------------------------------------------
+1)- Dado el siguiente programa, indicar la cantidad de atascos tipo RAW que se producen,
+la cantidad de Branch Taken Stalls y el número de CPI, si la ejecución se efectúa sólo
+con la opción Forwarding habilitada.
+
+.data
+tabla1: .word 15,11,24
+tabla2: .wrd 0,0,0
+
+.code
+daddi r1, r0, 0
+daddi r2, r0, 3
+
+loop:
+    ld r3, tabla(r1)
+    daddi r3 r3, 1
+    sd r3, tabla(r1)
+    daddi r1, r1, 8
+    daddi r2, r2, -1
+    bnez r2, loop
+halt
+
+RAW: 6
+BTS: 2
+CPI: ((6x3 + 3) + 6 + 2 + 4) / (6x3 + 3) = 33/21
+---------------------------------------------------------------------------------------- 
+2)- 
+
+
+
+
+---------------------------------------------------------------------------------------- 

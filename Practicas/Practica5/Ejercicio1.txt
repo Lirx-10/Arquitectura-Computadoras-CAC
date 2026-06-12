@@ -1,0 +1,38 @@
+1) Simular el siguiente programa de suma de números en punto flotante y analizar minuciosamente la
+ejecución paso a paso. Inhabilitar Delay Slot y mantener habilitado Forwarding.
+
+.data
+n1: .double 9.13
+n2: .double 6.58
+res1: .double 0.0
+res2: .double 0.0
+
+.code
+l.d f1, n1(r0)    ; I1
+l.d f2, n2(r0)    ; I2
+add.d f3, f2, f1  ; I3
+mul.d f4, f2, f1  ; I4
+s.d f3, res1(r0)  ; I5
+s.d f4, res2(r0)  ; I6
+halt
+
+
+a) Tomar nota de la cantidad de ciclos, instrucciones y CPI luego de la ejecución del programa.
+b) ¿Cuántos atascos por dependencia de datos se generan? Observar en cada caso cuál es el dato 
+en conflicto y las instrucciones involucradas.
+c) ¿Por qué se producen los atascos estructurales? Observar cuales son las instrucciones que los 
+generan y en qué etapas del pipeline aparecen.
+d) Modificar el programa agregando la instrucción mul.d f1, f2, f1 entre las instrucciones add.d 
+y mul.d. Repetir la ejecución y observar los resultados. ¿Por qué aparece un atasco tipo WAR?
+e) Explicar por qué colocando un NOP antes de la suma, se soluciona el RAW de la instrucción ADD
+y como consecuencia se elimina el WAR
+
+a- 16 Ciclos, 7 instrucciones, CPI = 2.286
+
+b- 4 atascos por dependencia de datos (RAW)
+I1 -> I3, I2 -> I3, I3 -> I5, I4 -> I6
+ 
+c- Un atasco estructural ocurre cuando 2 instrucciones quieren usar el mismo recurso hardware
+al mismo tiempo, en este caso ocurre cuando se ejecutan add.d y mul.d
+
+d- ni ganas

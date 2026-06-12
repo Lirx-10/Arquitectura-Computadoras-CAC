@@ -1,0 +1,186 @@
+------------------------------------------------------------------------------------------
+1)- Indicar el CPI de un programa con 15 instrucciones, 3 atascos por dependencia de datos
+y 1 por dependencia de control.
+
+CPI = ciclos/instrucciones
+ciclos = instrucciones + 4ciclos por instrucciones + atascos(suman 1 ciclo cada uno)
+
+CPI = (15 + 4 + 3 + 1)/15 = 23/15 = 1.533
+
+i+4+A/i
+
+------------------------------------------------------------------------------------------
+2)-¿A la salida de que etapas del cauce se ubican los buffers intermedios que provee el 
+forwarding?
+
+EX y MEM
+------------------------------------------------------------------------------------------
+3)- Nombre y explique como funcionan los mecanismos que ofrece MIPS64 para reducir los
+atascos de control.
+BTB: Genera o crea una tabla comparativa que decide si salta o no, reduciendo los atascos de 
+tipo BTS.
+
+Delay Slot: Siempre ejecuta la instrucción proxima al salto, mientras decide si salta o no.
+
+
+------------------------------------------------------------------------------------------
+4)- Bajo la convención para el uso de registros, indique qué representan los siguientes tipos:
+$t0-$t7: Registros temporales
+$a0-$a3: Registros de pasaje de parametros a subrutinas
+$v0-$v1: Registros de retorno de subrutinas
+$ra: El registro r31, que se utiliza para guardar la dirección de retorno de la subrutina
+
+------------------------------------------------------------------------------------------
+5)- ¿En que etapa de un cauce se calcula el destino de un salto y si se toma o no?
+En la etapa ID (Instruction Decode)
+
+------------------------------------------------------------------------------------------
+6-) Indicar cuales instrucciones son correctas y cuales incorrectas:
+a- ADD.D F10, F0, 3.7
+b- LD R28, CADENA(R3)
+c- L.D F4, NUM(F0)
+d- DADDI R3, R0, R1
+
+a- Incorrecta
+b- Correcta
+c- Incorrecta
+d- Incorrecta
+------------------------------------------------------------------------------------------
+7)- Escribir un programa en el que ingrese un entero por teclado y lo almacene en la etiqueta
+num.
+
+.data
+CONTROL: .word 0x10000
+DATA: .word 0x10008
+NUM: .word 0
+
+.code
+lwu $s0, CONTROL(r0)
+daddi $t0, r0, 8
+sd $t0, 0($s0)
+
+lwu $s1, DATA(r0)
+ld $t1, 0($s1)
+
+sd $t1, NUM(r0)
+
+halt
+------------------------------------------------------------------------------------------
+8)- El sigueinte programa recorre un arreglo de números(TABLA1)cuenta la cantidad de números
+impares. Luego almacena el resultado en la etiqueta RESUL. Completar instrucciones faltantes.
+
+.data
+TABLA1: .word 11,2,6,7,4,21,10,4
+CANT: .word 8
+RESUL: .word 0
+TABLA2: .word 0
+
+.code
+ld $t0, CANT(r0)
+dadd $t1, r0, r0
+dadd $t2, r0, r0 ----------
+
+LOOP: 
+    ld $t3, TABLA1($t2)
+    andi $t4, $t3, 1
+    beqz $t4, FUERA
+    daddi $t1, $t1, 1
+FUERA:
+    daddi $t2, $t2, 8 --------
+    daddi $t0, $t0, -1
+    bnez $t0, LOOP --------
+    sd $t1, RESUL(r0)
+halt
+    
+------------------------------------------------------------------------------------------
+9)- Escriba un programa para el simulador WinMIPS64 que solicite por teclado dos valores 
+númericos (coordenadas x e y) y dibuje en la pantalla gráfica un punto verde en la ubicación
+indicada por dichas coordenadas. Para ello, se deben implementar las siguientes subrutinas
+
+- LEER_NUM: Solicita el ingreso de un número entero, valida que se encuentre dentro del rango 
+permitido por la pantalla gráfica y lo retorna.
+
+- DIBUJAR_PUNTO: Recibe por parámetro las coordenadas de un punto (dos enteros) y dibuja un punto
+verde en esta posición de la pantalla gráfica.
+
+Se deberá respetar la convención de uso de registros.
+
+.data
+CONTROL: .word32 0x10000
+DATA: .word32 0x10008
+color: .byte 255, 255, 255, 0
+
+.code
+lwu $a0, CONTROL($0)
+lwu $a1, DATA($0)
+
+jal LEER_NUM
+dadd $a2, $0, $v0 ;coordenada en X
+jal LEER_NUM
+dadd $a3, $0, $v0 ;coordenada en y
+
+jal DIBUJAR_PUNTO
+
+halt
+
+LEER_NUM:
+    daddi $t0, $0, 6 ;Limpiar pantalla alfanumerica
+    daddi $t1, $0, 8 ;Recibir un numero entero por teclado
+    daddi $t4, $0, -1 ;Rango a partir de 0
+    daddi $t5, $0, 50 ;Rango hasta 49
+    loop:
+        ;Limpio la pantala alfanumérica, y me traigo el numero entero
+        sd $t0, 0($a0)
+        sd $t1, 0($a0)
+        ld $v0, 0($a1)
+        ;Valido que sea un numero entre 0 y 49
+        slt $t3, $v0, $t5
+        beqz $t3, loop
+        slt $t3, $t4, $v0
+        beqz $t3, loop 
+jr $ra
+
+DIBUJAR_PUNTO:
+    ;Limpio la pantalla
+    daddi $t0, $0, 7
+    sd $t0, 0($a0)
+    ;Cargo el color
+    lwu $t1, color(r0)
+    sw $t1, 0($a1)
+
+    ;Cargo las coordenadas
+    sb $t2, 5($a2) ;Coordenada en X
+    sb $t3, 4($a3) ;Coordenada en Y
+    
+    ;Imprimo en pantalla
+    daddi $t0, $0, 5
+    sd $t0, 0($a0)
+jr $ra
+
+
+
+
+
+
+
+LEER_NUM tolcach
+    dadd $t1, $0, $0
+    daddi $t2, $0, 49
+    volver:
+        dadd $t3, $0, $0
+        daddi $t0, $0, 6
+        sd $t0, 0($a3)
+        dadd $t0, $0, $a0
+        sd $t0, 0($a2)
+        daddi $t0, $0, 4
+        sd $t0, 0($a3)
+        daddi $t0, $0, 8
+        sd $t0, 0($a3)
+        ld $v0, 0($a2)
+        slt $t3, $v0, $t1
+        beqz $t3, volver
+        slt $t3, $t2, $v0
+        beqz $t3, volver
+jr ra
+
+
